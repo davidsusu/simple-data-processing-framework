@@ -3,7 +3,7 @@ package hu.webarticum.siof.example;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 import hu.webarticum.siof.framework.AbstractLinePatternSolution;
@@ -35,7 +35,7 @@ public class MultilineExample implements Runnable {
         }
 
         @Override
-        protected void parseHeader(String header, OutputStreamWriter outputWriter) throws IOException {
+        protected void parseHeader(String header, Writer outputWriter) throws IOException {
             outputWriter.write("<header>\n " + header.replace("\n", "\n ") + "\n</header>\n\n");
         }
 
