@@ -8,31 +8,31 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public abstract class AbstractTextSolution implements Solution {
-	
-	static public final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-	
-	private final Charset inputCharset;
-	private final Charset outputCharset;
-	
-	protected AbstractTextSolution() {
-		this(DEFAULT_CHARSET);
-	}
+    
+    static public final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+    
+    private final Charset inputCharset;
+    private final Charset outputCharset;
+    
+    protected AbstractTextSolution() {
+        this(DEFAULT_CHARSET);
+    }
 
-	protected AbstractTextSolution(Charset charset) {
-		this(charset, charset);
-	}
-	
-	protected AbstractTextSolution(Charset inputCharset, Charset outputCharset) {
-		this.inputCharset = inputCharset;
-		this.outputCharset = outputCharset;
-	}
-	
-	public void solve(InputStream inputStream, OutputStream outputStream) throws IOException {
-		try (OutputStreamWriter writer = new OutputStreamWriter(outputStream, outputCharset)) {
-			solve(new InputStreamReader(inputStream, inputCharset), writer);
-		}
-	}
+    protected AbstractTextSolution(Charset charset) {
+        this(charset, charset);
+    }
+    
+    protected AbstractTextSolution(Charset inputCharset, Charset outputCharset) {
+        this.inputCharset = inputCharset;
+        this.outputCharset = outputCharset;
+    }
+    
+    public void solve(InputStream inputStream, OutputStream outputStream) throws IOException {
+        try (OutputStreamWriter writer = new OutputStreamWriter(outputStream, outputCharset)) {
+            solve(new InputStreamReader(inputStream, inputCharset), writer);
+        }
+    }
 
-	public abstract void solve(InputStreamReader inputReader, OutputStreamWriter outputWriter) throws IOException;
-	
+    public abstract void solve(InputStreamReader inputReader, OutputStreamWriter outputWriter) throws IOException;
+    
 }
