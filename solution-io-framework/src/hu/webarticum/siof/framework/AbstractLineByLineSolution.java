@@ -7,11 +7,6 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
 public abstract class AbstractLineByLineSolution extends AbstractTextSolution {
-
-	// TODO: AbstractHeaderLineByLineSolution
-	// TODO: AbstractFixedHeaderLineByLineSolution
-	// TODO: relative/absolute lineIndex? (--> getHeaderSize())
-	// TODO: line parsers (parseInt/toString like operations)
 	
 	protected AbstractLineByLineSolution() {
 		super();
