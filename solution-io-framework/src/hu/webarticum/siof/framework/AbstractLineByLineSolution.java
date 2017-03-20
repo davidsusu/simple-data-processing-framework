@@ -2,8 +2,8 @@ package hu.webarticum.siof.framework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.nio.charset.Charset;
 
 public abstract class AbstractLineByLineSolution extends AbstractTextSolution {
@@ -19,8 +19,9 @@ public abstract class AbstractLineByLineSolution extends AbstractTextSolution {
     protected AbstractLineByLineSolution(Charset inputCharset, Charset outputCharset) {
         super(inputCharset, inputCharset);
     }
-
-    public void solve(InputStreamReader inputReader, OutputStreamWriter outputWriter) throws IOException {
+    
+    @Override
+    public void solve(Reader inputReader, Writer outputWriter) throws IOException {
         BufferedReader bufferedInputReader = new BufferedReader(inputReader);
         String LINE_SEPARATOR = System.lineSeparator();
         int lineIndex = 0;
