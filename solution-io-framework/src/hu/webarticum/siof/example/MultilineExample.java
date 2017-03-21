@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import hu.webarticum.siof.framework.AbstractLinePatternSolution;
 
 public class MultilineExample extends AbstractLinePatternSolution implements Example {
-        
+    
 	public MultilineExample() {
         super(3, 2);
     }
