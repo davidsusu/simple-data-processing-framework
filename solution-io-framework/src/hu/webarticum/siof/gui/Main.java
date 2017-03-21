@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import hu.webarticum.siof.example.Example;
-import hu.webarticum.siof.example.MultilineExample;
+import hu.webarticum.siof.example.ParseValuesExample;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Example example = new MultilineExample();
+        Example example = new ParseValuesExample();
         InputStream sampleInputStream = example.getSampleInputStream();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         
