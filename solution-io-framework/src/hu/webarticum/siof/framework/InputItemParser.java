@@ -69,27 +69,30 @@ public class InputItemParser {
         List<Object> result = new ArrayList<Object>(length);
         
         Matcher matcher = pattern.matcher(itemInput);
-        if (matcher.find()) {
-            for (int i = 0;  i < length; i++) {
-                String valueString = matcher.group(i + 1);
-                char typeCharacter = typeCharacters.get(i);
+        
+        if (!matcher.find()) {
+            throw new IllegalArgumentException("Unmatched input: '" + itemInput + "'");
+        }
+        
+        for (int i = 0;  i < length; i++) {
+            String valueString = matcher.group(i + 1);
+            char typeCharacter = typeCharacters.get(i);
 
-                Object value;
-                switch (typeCharacter) {
-                    case 'd':
-                        value = Integer.parseInt(valueString);
-                        break;
-                    case 'f':
-                        value = Double.parseDouble(valueString);
-                        break;
-                    case 's':
-                    default:
-                        value = valueString;
-                        break;
-                }
-                
-                result.add(value);
+            Object value;
+            switch (typeCharacter) {
+                case 'd':
+                    value = Integer.parseInt(valueString);
+                    break;
+                case 'f':
+                    value = Double.parseDouble(valueString);
+                    break;
+                case 's':
+                default:
+                    value = valueString;
+                    break;
             }
+            
+            result.add(value);
         }
         
         return result;
