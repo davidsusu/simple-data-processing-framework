@@ -18,17 +18,17 @@ public class LineBuffer {
         height++;
     }
 
-    public boolean isEmpty() {
-        return (contentBuilder.length() == 0);
+    public int getLength() {
+        return contentBuilder.length();
+    }
+
+    public int getHeight() {
+        return height;
     }
     
     public void clear() {
         contentBuilder.setLength(0);
         height = 0;
-    }
-    
-    public int getHeight() {
-        return height;
     }
     
     @Override

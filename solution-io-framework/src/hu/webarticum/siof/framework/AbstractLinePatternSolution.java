@@ -72,7 +72,7 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
             }
         }
         
-        if (parseTrailing && !buffer.isEmpty()) {
+        if (parseTrailing && buffer.getLength() > 0) {
             if (isHeaderMode) {
                 parseHeader(buffer.toString(), outputWriter);
             } else {
