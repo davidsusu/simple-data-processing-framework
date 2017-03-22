@@ -8,10 +8,10 @@ import hu.webarticum.siof.framework.AbstractLineByLineSolution;
 
 public class VerySimpleExample extends AbstractLineByLineSolution implements Example {
     
-	public VerySimpleExample() {
-		super();
-	}
-	
+    public VerySimpleExample() {
+        super();
+    }
+    
     @Override
     protected String solveLine(int lineIndex, String inputLine) {
         return "Content of line " + lineIndex + ": '" + inputLine + "'; length: " + inputLine.length();
