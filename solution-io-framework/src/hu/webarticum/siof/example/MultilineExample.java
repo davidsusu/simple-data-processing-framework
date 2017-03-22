@@ -10,7 +10,7 @@ import hu.webarticum.siof.framework.AbstractLinePatternSolution;
 
 public class MultilineExample extends AbstractLinePatternSolution implements Example {
     
-	public MultilineExample() {
+    public MultilineExample() {
         super(3, 2);
     }
 

@@ -6,23 +6,23 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class StringSolutionWrapper {
-	
-	private final Solution solution;
-	
-	public StringSolutionWrapper(Solution solution) {
-		this.solution = solution;
-	}
-	
-	public String solve(String input) {
+    
+    private final Solution solution;
+    
+    public StringSolutionWrapper(Solution solution) {
+        this.solution = solution;
+    }
+    
+    public String solve(String input) {
         InputStream sampleInputStream = new ByteArrayInputStream(input.getBytes());
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         
         try {
-			solution.solve(sampleInputStream, outputStream);
-		} catch (IOException e) {
-		}
+            solution.solve(sampleInputStream, outputStream);
+        } catch (IOException e) {
+        }
         
         return outputStream.toString();
-	}
-	
+    }
+    
 }
