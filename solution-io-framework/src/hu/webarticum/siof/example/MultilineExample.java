@@ -1,14 +1,11 @@
 package hu.webarticum.siof.example;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 
 import hu.webarticum.siof.framework.AbstractLinePatternSolution;
 
-public class MultilineExample extends AbstractLinePatternSolution implements Example {
+public class MultilineExample extends AbstractLinePatternSolution implements TextExample {
     
     public MultilineExample() {
         super(3, 2);
@@ -25,9 +22,8 @@ public class MultilineExample extends AbstractLinePatternSolution implements Exa
     }
 
     @Override
-    public InputStream getSampleInputStream() {
-        String input = "HEADER1\nHEADER2\nHEADER3\ninput1-1\ninput1-2\ninput2-1\ninput2-2";
-        return new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+    public String getSampleInputContent() {
+        return "HEADER1\nHEADER2\nHEADER3\ninput1-1\ninput1-2\ninput2-1\ninput2-2";
     }
     
 }

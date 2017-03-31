@@ -1,12 +1,8 @@
 package hu.webarticum.siof.example;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
 import hu.webarticum.siof.framework.AbstractLineByLineSolution;
 
-public class VerySimpleExample extends AbstractLineByLineSolution implements Example {
+public class VerySimpleExample extends AbstractLineByLineSolution implements TextExample {
     
     public VerySimpleExample() {
         super();
@@ -18,9 +14,8 @@ public class VerySimpleExample extends AbstractLineByLineSolution implements Exa
     }
 
     @Override
-    public InputStream getSampleInputStream() {
-        String input = "AAA\nBBB\nCCC";
-        return new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+    public String getSampleInputContent() {
+        return "AAA\nBBB\nCCC";
     }
     
 }
