@@ -1,15 +1,12 @@
 package hu.webarticum.siof.example;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Locale;
 
 import hu.webarticum.siof.framework.AbstractLineByLineSolution;
 import hu.webarticum.siof.framework.InputItemParser;
 
-public class ParseValuesExample extends AbstractLineByLineSolution implements Example {
+public class ParseValuesExample extends AbstractLineByLineSolution implements TextExample {
     
     public static final String PATTERN = "%w, %d, %f";
     
@@ -33,9 +30,8 @@ public class ParseValuesExample extends AbstractLineByLineSolution implements Ex
     }
 
     @Override
-    public InputStream getSampleInputStream() {
-        String input = "Hello, 4, 12.4\nWorld, -12, 3.4E2\nXXXXX, 0, -.4";
-        return new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+    public String getSampleInputContent() {
+        return "Hello, 4, 12.4\nWorld, -12, 3.4E2\nXXXXX, 0, -.4";
     }
 
 }
