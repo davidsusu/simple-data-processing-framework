@@ -2,9 +2,12 @@ package hu.webarticum.siof.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,8 +85,17 @@ public class SiofGui implements Runnable {
         this.checkOutputContent = checkOutputContent;
     }
 
-    private static String readFileSilently(File file) {
-        try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);) {
+    public static String readFileSilently(File file) {
+        try {
+            return readFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    
+    public static String readFile(File file) throws IOException {
+        try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
             char[] buffer = new char[1024];
             int size = 0;
             StringBuilder resultBuilder = new StringBuilder();
@@ -91,9 +103,12 @@ public class SiofGui implements Runnable {
                 resultBuilder.append(new String(buffer, 0, size));
             }
             return resultBuilder.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
+        }
+    }
+    
+    public static void writeFile(File file, String content) throws IOException {
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(file))) {
+            writer.write(content);
         }
     }
 
