@@ -2,21 +2,17 @@ package hu.webarticum.siof.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import hu.webarticum.siof.example.ParseValuesExample;
+import javax.swing.JFrame;
+
 import hu.webarticum.siof.example.TextExample;
 import hu.webarticum.siof.framework.TextSolution;
 
@@ -102,17 +98,14 @@ public class SiofGui implements Runnable {
     }
 
     public void run() {
-        TextSolution solution = solutions.get(0);
-        Reader reader = new StringReader(inputContent);
-        Writer writer = new StringWriter();
-        
-        try {
-            solution.solve(reader, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        System.out.println("Output:\n\n" + writer.toString());
+        MainFrame mainFrame = new MainFrame(
+            solutions,
+            inputFile, inputContent,
+            outputFile, outputContent,
+            checkOutputFile, checkOutputContent
+        );
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setVisible(true);
     }
     
 }
