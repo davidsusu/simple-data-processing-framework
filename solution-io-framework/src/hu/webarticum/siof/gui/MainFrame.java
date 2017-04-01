@@ -1,5 +1,6 @@
 package hu.webarticum.siof.gui;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
@@ -26,6 +27,7 @@ public class MainFrame extends JFrame {
         String checkOutputContent
     ) {
         setSize(420, 300);
+        setContentPane(new ContentPanel("Input", new Color(0x99CC44), inputContent, inputFile == null ? "" : inputFile.getPath()));
         
         // TODO
         
