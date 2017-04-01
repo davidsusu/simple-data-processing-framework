@@ -2,7 +2,15 @@ package hu.webarticum.siof.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
@@ -14,9 +22,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.function.Function;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -25,11 +37,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 public class ContentPanel extends JLayeredPane {
 
+    
     private static final long serialVersionUID = 1L;
 
+    
     private JPanel mainPanel;
     
     private JLabel titleLabel;
@@ -39,9 +54,15 @@ public class ContentPanel extends JLayeredPane {
     private JTextField fileTextField;
     
     private JPanel overlay;
-    
-    private DropTarget dropTarget;
 
+
+    private final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 24);
+    
+    private final Font OVERLAY_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 32);
+    
+    private final String OVERLAY_TEXT = "Drop file here!";
+    
+    
     public ContentPanel(String title, Color backgroundColor, String content, String associatedFilePath) {
         build();
         setTitle(title);
@@ -55,7 +76,7 @@ public class ContentPanel extends JLayeredPane {
     }
 
     public void setBackgroundColor(Color backgroundColor) {
-        setBackground(backgroundColor);
+        mainPanel.setBackground(backgroundColor);
     }
 
     public void setContent(String content) {
@@ -79,7 +100,7 @@ public class ContentPanel extends JLayeredPane {
         }
         
         if (askToConfirmOverwrite && !contentTextArea.getText().isEmpty()) {
-            if (JOptionPane.showConfirmDialog(this, "Overwrite existing content?") != JOptionPane.YES_OPTION) {
+            if (!confirm("Non-empty content", "Overwrite existing content?")) {
                 return;
             }
         }
@@ -94,14 +115,15 @@ public class ContentPanel extends JLayeredPane {
 
     public void tryToSaveToAssociatedFile(boolean askToConfirmReplace) {
         if (fileTextField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please specify filename!", "No filename", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please choose a file!", "No file", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         File file = new File(fileTextField.getText());
         if (askToConfirmReplace && file.exists()) {
-            JOptionPane.showMessageDialog(this, "The specified file does not exists!!", "File not found", JOptionPane.ERROR_MESSAGE);
-            return;
+            if (!confirm("File exists", "Overwrite the existing file?")) {
+                return;
+            }
         }
         
         try {
@@ -112,14 +134,29 @@ public class ContentPanel extends JLayeredPane {
         }
     }
     
+    private boolean confirm(String title, String message) {
+        return (
+            JOptionPane.showConfirmDialog(
+                this,
+                "Overwrite the existing file?",
+                "File exists",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            ) == JOptionPane.YES_OPTION
+        );
+    }
+    
     private void build() {
         mainPanel = new JPanel();
         mainPanel.setBounds(new Rectangle(0, 0, 200, 200));
+        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         add(mainPanel, new Integer(0));
         
         mainPanel.setLayout(new BorderLayout());
         
         titleLabel = new JLabel();
+        titleLabel.setBorder(new EmptyBorder(0, 0, 4, 0));
+        titleLabel.setFont(TITLE_FONT);
         mainPanel.add(titleLabel, BorderLayout.PAGE_START);
         
         contentTextArea = new JTextArea();
@@ -140,6 +177,24 @@ public class ContentPanel extends JLayeredPane {
         bottomRightPanel.setOpaque(false);
         bottomRightPanel.setLayout(new BoxLayout(bottomRightPanel, BoxLayout.LINE_AXIS));
         bottomPanel.add(bottomRightPanel, BorderLayout.LINE_END);
+        
+        JButton chooseFileButton = new JButton("...");
+        chooseFileButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                JFileChooser fileChooser = new JFileChooser();
+                if (!fileTextField.getText().isEmpty()) {
+                    fileChooser.setSelectedFile(new File(fileTextField.getText()));
+                }
+                if (fileChooser.showDialog(ContentPanel.this, "OK") == JFileChooser.APPROVE_OPTION) {
+                    fileTextField.setText(fileChooser.getSelectedFile().getPath());
+                    tryToLoadFromAssociatedFile(false);
+                }
+            }
+            
+        });
+        bottomRightPanel.add(chooseFileButton);
         
         JButton loadFileButton = new JButton("Load");
         loadFileButton.addActionListener(new ActionListener() {
@@ -163,11 +218,28 @@ public class ContentPanel extends JLayeredPane {
         });
         bottomRightPanel.add(saveFileButton);
         
-        
-        // XXX
-        
-        overlay = new JPanel();
-        overlay.setBounds(new Rectangle(100, 100, 200, 200));
+        overlay = new JPanel() {
+            
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                int width = getWidth();
+                int height = getHeight();
+                g.setColor(getBackground());
+                g.fillRect(0, 0, width, height);
+                g.setColor(new Color(0x993300));
+                g.setFont(OVERLAY_FONT);
+                FontMetrics fontMetrics = g.getFontMetrics();
+                int textWidth = fontMetrics.stringWidth(OVERLAY_TEXT);
+                int textHeight = fontMetrics.getHeight();
+                g.drawString(OVERLAY_TEXT, (width - textWidth) / 2, (height - textHeight) / 2);
+                super.paintComponent(g);
+            }
+            
+        };
+        overlay.setOpaque(false);
+        overlay.setBackground(new Color(255, 200, 50, 100));
         overlay.setVisible(false);
         add(overlay, new Integer(1));
         
@@ -180,16 +252,10 @@ public class ContentPanel extends JLayeredPane {
             
             @Override
             public void componentResized(ComponentEvent ev) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    
-                    @Override
-                    public void run() {
-                        mainPanel.setSize(ContentPanel.this.getSize());
-                        overlay.setSize(ContentPanel.this.getSize());
-                        ContentPanel.this.repaint();
-                    }
-                    
-                });
+                Dimension size = ContentPanel.this.getSize();
+                mainPanel.setSize(size);
+                overlay.setSize(size);
+                ContentPanel.this.revalidate();
             }
             
             @Override
@@ -201,37 +267,102 @@ public class ContentPanel extends JLayeredPane {
             }
         });
         
-        /*
-        dropTarget = new DropTarget(this, new DropTargetListener() {
+        Function<JComponent, DropTarget> addDropStart = (JComponent component) -> new DropTarget(component, new DropTargetListener() {
             
             @Override
             public void dropActionChanged(DropTargetDragEvent ev) {
-                // TODO
             }
             
             @Override
             public void drop(DropTargetDropEvent ev) {
-                // TODO
-                System.out.println("DROP!");
-                ev.rejectDrop();
             }
             
             @Override
             public void dragOver(DropTargetDragEvent ev) {
-                // TODO
             }
             
             @Override
             public void dragExit(DropTargetEvent ev) {
-                // TODO
             }
             
             @Override
             public void dragEnter(DropTargetDragEvent ev) {
-                // TODO
+                if (ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                    overlay.setVisible(true);
+                }
             }
             
-        });*/
+        });
+
+        addDropStart.apply(this);
+        addDropStart.apply(contentTextArea);
+        addDropStart.apply(fileTextField);
+        
+        new DropTarget(overlay, new DropTargetListener() {
+            
+            private File file = null;
+            
+            @Override
+            public void dropActionChanged(DropTargetDragEvent ev) {
+            }
+            
+            @Override
+            public void drop(DropTargetDropEvent ev) {
+                if (file != null) {
+                    fileTextField.setText(file.getPath());
+                    tryToLoadFromAssociatedFile(false);
+                }
+                overlay.setVisible(false);
+            }
+            
+            @Override
+            public void dragOver(DropTargetDragEvent ev) {
+            }
+            
+            @Override
+            public void dragExit(DropTargetEvent ev) {
+                overlay.setVisible(false);
+                file = null;
+            }
+            
+            @Override
+            public void dragEnter(DropTargetDragEvent ev) {
+                if (ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                    try {
+                        @SuppressWarnings("unchecked")
+                        List<File> files = (List<File>)ev.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                        if (!files.isEmpty()) {
+                            file = files.get(0);
+                        }
+                    } catch (UnsupportedFlavorException | IOException e) {
+                    }
+                }
+            }
+        });
+        
+        overlay.addComponentListener(new ComponentListener() {
+            
+            @Override
+            public void componentShown(ComponentEvent ev) {
+                Point point = MouseInfo.getPointerInfo().getLocation();
+                SwingUtilities.convertPointFromScreen(point, overlay);
+                if (!new Rectangle(new Point(0, 0), overlay.getSize()).contains(point)) {
+                    overlay.setVisible(false);
+                }
+            }
+            
+            @Override
+            public void componentResized(ComponentEvent ev) {
+            }
+            
+            @Override
+            public void componentMoved(ComponentEvent ev) {
+            }
+            
+            @Override
+            public void componentHidden(ComponentEvent ev) {
+            }
+        });
     }
     
 }
