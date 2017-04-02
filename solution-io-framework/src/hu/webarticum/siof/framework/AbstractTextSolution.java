@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-public abstract class AbstractTextSolution implements TextSolution {
+public abstract class AbstractTextSolution extends AbstractSolution implements TextSolution {
     
     static public final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     

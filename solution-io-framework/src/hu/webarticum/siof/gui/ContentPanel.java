@@ -102,6 +102,10 @@ public class ContentPanel extends JLayeredPane {
     public void setContent(String content) {
         contentTextArea.setText(content);
     }
+    
+    public String getContent() {
+        return contentTextArea.getText();
+    }
 
     public void setAssociatedFilePath(String associatedFilePath) {
         fileTextField.setText(associatedFilePath);
