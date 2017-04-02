@@ -50,10 +50,25 @@ public class ContentPanel extends JLayeredPane {
     private JLabel titleLabel;
 
     private JTextArea contentTextArea;
-
-    private JTextField fileTextField;
     
+    private JScrollPane contentScrollPane;
+
+    private JLabel fileLabel;
+    
+    private JTextField fileTextField;
+
+    private JButton chooseFileButton;
+
+    private JButton loadFileButton;
+
+    private JButton saveFileButton;
+
     private JPanel overlay;
+    
+    
+    private boolean enabled = true;
+    
+    private Color backgroundColor = Color.WHITE;;
 
 
     private final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 24);
@@ -62,6 +77,8 @@ public class ContentPanel extends JLayeredPane {
     
     private final String OVERLAY_TEXT = "Drop file here!";
     
+    private final Color DISABLED_BACKGROUND_COLOR = new Color(0xCCCCCC);
+
     
     public ContentPanel(String title, Color backgroundColor, String content, String associatedFilePath) {
         build();
@@ -76,7 +93,10 @@ public class ContentPanel extends JLayeredPane {
     }
 
     public void setBackgroundColor(Color backgroundColor) {
-        mainPanel.setBackground(backgroundColor);
+        this.backgroundColor = backgroundColor;
+        if (enabled) {
+            mainPanel.setBackground(backgroundColor);
+        }
     }
 
     public void setContent(String content) {
@@ -85,6 +105,19 @@ public class ContentPanel extends JLayeredPane {
 
     public void setAssociatedFilePath(String associatedFilePath) {
         fileTextField.setText(associatedFilePath);
+    }
+    
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        mainPanel.setBackground(enabled ? backgroundColor : DISABLED_BACKGROUND_COLOR);
+        titleLabel.setEnabled(enabled);
+        contentTextArea.setEnabled(enabled);
+        contentScrollPane.setEnabled(enabled);
+        fileLabel.setEnabled(enabled);
+        fileTextField.setEnabled(enabled);
+        chooseFileButton.setEnabled(enabled);
+        loadFileButton.setEnabled(enabled);
+        saveFileButton.setEnabled(enabled);
     }
     
     public void tryToLoadFromAssociatedFile(boolean askToConfirmOverwrite) {
@@ -160,7 +193,7 @@ public class ContentPanel extends JLayeredPane {
         mainPanel.add(titleLabel, BorderLayout.PAGE_START);
         
         contentTextArea = new JTextArea();
-        JScrollPane contentScrollPane = new JScrollPane(contentTextArea);
+        contentScrollPane = new JScrollPane(contentTextArea);
         mainPanel.add(contentScrollPane, BorderLayout.CENTER);
         
         JPanel bottomPanel = new JPanel();
@@ -168,7 +201,8 @@ public class ContentPanel extends JLayeredPane {
         bottomPanel.setLayout(new BorderLayout());
         mainPanel.add(bottomPanel, BorderLayout.PAGE_END);
 
-        bottomPanel.add(new JLabel("File:"), BorderLayout.LINE_START);
+        fileLabel = new JLabel("File:");
+        bottomPanel.add(fileLabel, BorderLayout.LINE_START);
         
         fileTextField = new JTextField();
         bottomPanel.add(fileTextField, BorderLayout.CENTER);
@@ -178,7 +212,7 @@ public class ContentPanel extends JLayeredPane {
         bottomRightPanel.setLayout(new BoxLayout(bottomRightPanel, BoxLayout.LINE_AXIS));
         bottomPanel.add(bottomRightPanel, BorderLayout.LINE_END);
         
-        JButton chooseFileButton = new JButton("...");
+        chooseFileButton = new JButton("...");
         chooseFileButton.addActionListener(new ActionListener() {
             
             @Override
@@ -196,7 +230,7 @@ public class ContentPanel extends JLayeredPane {
         });
         bottomRightPanel.add(chooseFileButton);
         
-        JButton loadFileButton = new JButton("Load");
+        loadFileButton = new JButton("Load");
         loadFileButton.addActionListener(new ActionListener() {
             
             @Override
@@ -207,7 +241,7 @@ public class ContentPanel extends JLayeredPane {
         });
         bottomRightPanel.add(loadFileButton);
 
-        JButton saveFileButton = new JButton("Save");
+        saveFileButton = new JButton("Save");
         saveFileButton.addActionListener(new ActionListener() {
             
             @Override
@@ -279,6 +313,9 @@ public class ContentPanel extends JLayeredPane {
             
             @Override
             public void dragOver(DropTargetDragEvent ev) {
+                if (!enabled) {
+                    ev.rejectDrag();
+                }
             }
             
             @Override
@@ -287,7 +324,7 @@ public class ContentPanel extends JLayeredPane {
             
             @Override
             public void dragEnter(DropTargetDragEvent ev) {
-                if (ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                if (enabled && ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
                     overlay.setVisible(true);
                 }
             }
