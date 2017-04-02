@@ -114,10 +114,6 @@ public class SiofGui implements Runnable {
 
     @Override
     public void run() {
-        run(false);
-    }
-    
-    public void run(boolean runSolution) {
         MainFrame mainFrame = new MainFrame(
             solutions,
             inputFile, inputContent,
@@ -126,10 +122,6 @@ public class SiofGui implements Runnable {
         );
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
-        
-        if (runSolution) {
-            mainFrame.runSolution();
-        }
     }
     
 }
