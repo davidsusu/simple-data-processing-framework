@@ -12,7 +12,7 @@ public class VerySimpleExample extends AbstractLineByLineDataProcessor implement
     }
     
     @Override
-    protected String solveLine(int lineIndex, String inputLine) {
+    protected String processLine(int lineIndex, String inputLine) {
         return "Content of line " + lineIndex + ": '" + inputLine + "'; length: " + inputLine.length();
     }
 

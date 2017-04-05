@@ -35,13 +35,13 @@ public abstract class AbstractLineByLineDataProcessor extends AbstractTextDataPr
     }
     
     @Override
-    public void solve(Reader inputReader, Writer outputWriter) throws IOException {
+    public void process(Reader inputReader, Writer outputWriter) throws IOException {
         BufferedReader bufferedInputReader = new BufferedReader(inputReader);
         String LINE_SEPARATOR = System.lineSeparator();
         int lineIndex = 0;
         String inputLine;
         while ((inputLine = bufferedInputReader.readLine()) != null) {
-            String outputLine = solveLine(lineIndex++, inputLine);
+            String outputLine = processLine(lineIndex++, inputLine);
             outputWriter.write(outputLine + LINE_SEPARATOR);
         }
     }
@@ -53,6 +53,6 @@ public abstract class AbstractLineByLineDataProcessor extends AbstractTextDataPr
      * @param inputLine content of the current input line
      * @return
      */
-    protected abstract String solveLine(int lineIndex, String inputLine);
+    protected abstract String processLine(int lineIndex, String inputLine);
     
 }

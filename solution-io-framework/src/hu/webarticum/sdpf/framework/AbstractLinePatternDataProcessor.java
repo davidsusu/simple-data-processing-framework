@@ -60,7 +60,7 @@ public abstract class AbstractLinePatternDataProcessor extends AbstractTextDataP
     }
 
     @Override
-    public void solve(Reader inputReader, Writer outputWriter) throws IOException {
+    public void process(Reader inputReader, Writer outputWriter) throws IOException {
         BufferedReader bufferedInputReader = new BufferedReader(inputReader);
         
         String LINE_SEPARATOR = System.lineSeparator();
@@ -81,7 +81,7 @@ public abstract class AbstractLinePatternDataProcessor extends AbstractTextDataP
                 }
             } else {
                 if (buffer.getHeight() == itemHeight) {
-                    String itemOutput = solveItem(itemIndex++, buffer.toString());
+                    String itemOutput = processItem(itemIndex++, buffer.toString());
                     outputWriter.write(itemOutput + LINE_SEPARATOR);
                     buffer.clear();
                 }
@@ -92,7 +92,7 @@ public abstract class AbstractLinePatternDataProcessor extends AbstractTextDataP
             if (isHeaderMode) {
                 parseHeader(buffer.toString(), outputWriter);
             } else {
-                String itemOutput = solveItem(itemIndex, buffer.toString());
+                String itemOutput = processItem(itemIndex, buffer.toString());
                 outputWriter.write(itemOutput + LINE_SEPARATOR);
             }
         }
@@ -115,6 +115,6 @@ public abstract class AbstractLinePatternDataProcessor extends AbstractTextDataP
      * @param item      content of the current input item
      * @return
      */
-    protected abstract String solveItem(int itemIndex, String item);
+    protected abstract String processItem(int itemIndex, String item);
 
 }

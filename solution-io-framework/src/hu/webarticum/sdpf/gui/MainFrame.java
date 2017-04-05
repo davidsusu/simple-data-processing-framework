@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
     /**
      * @param dataProcessors        data processors will be listed in a combo box, the first will be selected
      * @param inputFile             an associated file for input or null
-     * @param inputContent          the input to solve
+     * @param inputContent          the input to process
      * @param outputFile            an associated file for output or null
      * @param outputContent         a sample output
      * @param checkOutputFile       an associated file for expected output or null
@@ -214,7 +214,7 @@ public class MainFrame extends JFrame {
         StringWriter outputWriter = new StringWriter();
         
         try {
-            dataProcessor.solve(inputReader, outputWriter);
+            dataProcessor.process(inputReader, outputWriter);
         } catch (Throwable e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(

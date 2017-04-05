@@ -20,7 +20,7 @@ public class MultilineExample extends AbstractLinePatternDataProcessor implement
     }
 
     @Override
-    protected String solveItem(int itemIndex, String item) {
+    protected String processItem(int itemIndex, String item) {
         return "ITEM #" + itemIndex + ": " + item.replace("\n", "; ");
     }
 

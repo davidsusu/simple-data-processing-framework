@@ -16,6 +16,6 @@ public interface TextDataProcessor extends DataProcessor {
      * @param outputWriter  a writer for output
      * @throws IOException
      */
-    public void solve(Reader inputReader, Writer outputWriter) throws IOException;
+    public void process(Reader inputReader, Writer outputWriter) throws IOException;
     
 }

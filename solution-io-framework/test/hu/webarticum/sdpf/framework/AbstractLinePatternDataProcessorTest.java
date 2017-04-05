@@ -17,7 +17,7 @@ public class AbstractLinePatternDataProcessorTest {
         AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(0, 1, false) {
             
             @Override
-            protected String solveItem(int itemIndex, String item) {
+            protected String processItem(int itemIndex, String item) {
                 return "#" + itemIndex + ": '" + item + "'";
             }
             
@@ -38,7 +38,7 @@ public class AbstractLinePatternDataProcessorTest {
         AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(0, 3, false) {
             
             @Override
-            protected String solveItem(int itemIndex, String item) {
+            protected String processItem(int itemIndex, String item) {
                 return item.replace("\n", ";");
             }
             
@@ -60,7 +60,7 @@ public class AbstractLinePatternDataProcessorTest {
         AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(0, 3, true) {
             
             @Override
-            protected String solveItem(int itemIndex, String item) {
+            protected String processItem(int itemIndex, String item) {
                 return item.replace("\n", ";");
             }
             
@@ -82,7 +82,7 @@ public class AbstractLinePatternDataProcessorTest {
         AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(2, 3, false) {
             
             @Override
-            protected String solveItem(int itemIndex, String item) {
+            protected String processItem(int itemIndex, String item) {
                 return item.replace("\n", ";");
             }
             
@@ -107,7 +107,7 @@ public class AbstractLinePatternDataProcessorTest {
         AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(2, 3, true) {
             
             @Override
-            protected String solveItem(int itemIndex, String item) {
+            protected String processItem(int itemIndex, String item) {
                 return item.replace("\n", ";");
             }
             

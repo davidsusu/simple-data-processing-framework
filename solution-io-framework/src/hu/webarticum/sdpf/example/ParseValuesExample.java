@@ -20,7 +20,7 @@ public class ParseValuesExample extends AbstractLineByLineDataProcessor implemen
     }
     
     @Override
-    protected String solveLine(int lineIndex, String inputLine) {
+    protected String processLine(int lineIndex, String inputLine) {
         Iterator<Object> dataIterator = parser.parse(inputLine).iterator();
         
         String label = (String)dataIterator.next();

@@ -14,7 +14,7 @@ public class AbstractLineByLineDataProcessorTest {
         AbstractLineByLineDataProcessor processor = new AbstractLineByLineDataProcessor() {
             
             @Override
-            protected String solveLine(int lineIndex, String inputLine) {
+            protected String processLine(int lineIndex, String inputLine) {
                 return "#" + lineIndex + ": '" + inputLine + "'";
             }
             

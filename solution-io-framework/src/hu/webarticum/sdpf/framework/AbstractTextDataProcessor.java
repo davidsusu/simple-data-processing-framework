@@ -29,7 +29,7 @@ public abstract class AbstractTextDataProcessor extends AbstractDataProcessor im
     
     public void process(InputStream inputStream, OutputStream outputStream) throws IOException {
         try (OutputStreamWriter writer = new OutputStreamWriter(outputStream, outputCharset)) {
-            solve(new InputStreamReader(inputStream, inputCharset), writer);
+            process(new InputStreamReader(inputStream, inputCharset), writer);
         }
     }
 
