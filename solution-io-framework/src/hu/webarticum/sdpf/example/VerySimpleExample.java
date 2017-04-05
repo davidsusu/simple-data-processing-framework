@@ -1,11 +1,11 @@
-package hu.webarticum.siof.example;
+package hu.webarticum.sdpf.example;
 
-import hu.webarticum.siof.framework.AbstractLineByLineSolution;
+import hu.webarticum.sdpf.framework.AbstractLineByLineDataProcessor;
 
 /**
  * A simple example of how to process some simple lines
  */
-public class VerySimpleExample extends AbstractLineByLineSolution implements TextExample {
+public class VerySimpleExample extends AbstractLineByLineDataProcessor implements TextExample {
     
     public VerySimpleExample() {
         super();

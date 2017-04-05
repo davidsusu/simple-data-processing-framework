@@ -1,10 +1,10 @@
-package hu.webarticum.siof.gui;
+package hu.webarticum.sdpf.gui;
 
 import java.io.IOException;
 
-import hu.webarticum.siof.example.MultilineExample;
-import hu.webarticum.siof.example.ParseValuesExample;
-import hu.webarticum.siof.example.VerySimpleExample;
+import hu.webarticum.sdpf.example.MultilineExample;
+import hu.webarticum.sdpf.example.ParseValuesExample;
+import hu.webarticum.sdpf.example.VerySimpleExample;
 
 public class Main {
 

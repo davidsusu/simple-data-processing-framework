@@ -1,10 +1,12 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
 import org.junit.Test;
+
+import hu.webarticum.sdpf.framework.InputItemParser;
 
 public class InputItemParserTest {
 

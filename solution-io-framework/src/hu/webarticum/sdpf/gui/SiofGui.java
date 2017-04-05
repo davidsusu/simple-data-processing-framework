@@ -1,4 +1,4 @@
-package hu.webarticum.siof.gui;
+package hu.webarticum.sdpf.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,12 +16,12 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import hu.webarticum.siof.example.TextExample;
-import hu.webarticum.siof.framework.TextSolution;
+import hu.webarticum.sdpf.example.TextExample;
+import hu.webarticum.sdpf.framework.TextDataProcessor;
 
 public class SiofGui implements Runnable {
     
-    private final List<TextSolution> solutions;
+    private final List<TextDataProcessor> dataProcessors;
 
     private final File inputFile;
     
@@ -35,40 +35,40 @@ public class SiofGui implements Runnable {
 
     private final String checkOutputContent;
 
-    public SiofGui(TextSolution... solutions) {
-        this(Arrays.asList(solutions));
+    public SiofGui(TextDataProcessor... dataProcessors) {
+        this(Arrays.asList(dataProcessors));
     }
 
     public SiofGui(TextExample example) {
         this(Arrays.asList(example), example.getSampleInputContent());
     }
 
-    public SiofGui(TextSolution solution, File inputFile, File outputFile) {
-        this(Arrays.asList(solution), inputFile, outputFile);
+    public SiofGui(TextDataProcessor dataProcessor, File inputFile, File outputFile) {
+        this(Arrays.asList(dataProcessor), inputFile, outputFile);
     }
 
-    public SiofGui(TextSolution solution, String inputContent) {
-        this(Arrays.asList(solution), inputContent);
+    public SiofGui(TextDataProcessor dataProcessor, String inputContent) {
+        this(Arrays.asList(dataProcessor), inputContent);
     }
 
-    public SiofGui(Collection<TextSolution> solutions) {
-        this(solutions, null, "", null, "", null, "");
+    public SiofGui(Collection<TextDataProcessor> dataProcessors) {
+        this(dataProcessors, null, "", null, "", null, "");
     }
 
-    public SiofGui(Collection<TextSolution> solutions, File inputFile, File outputFile) {
+    public SiofGui(Collection<TextDataProcessor> dataProcessors, File inputFile, File outputFile) {
         this(
-            solutions, inputFile,
+                dataProcessors, inputFile,
             readFileSilently(inputFile), outputFile,
             readFileSilently(outputFile), null, ""
         );
     }
 
-    public SiofGui(Collection<TextSolution> solutions, String inputContent) {
-        this(solutions, null, inputContent, null, "", null, "");
+    public SiofGui(Collection<TextDataProcessor> dataProcessors, String inputContent) {
+        this(dataProcessors, null, inputContent, null, "", null, "");
     }
 
     public SiofGui(
-        Collection<TextSolution> solutions,
+        Collection<TextDataProcessor> dataProcessors,
         File inputFile,
         String inputContent,
         File outputFile,
@@ -76,7 +76,7 @@ public class SiofGui implements Runnable {
         File checkOutputFile,
         String checkOutputContent
     ) {
-        this.solutions = new ArrayList<>(solutions);
+        this.dataProcessors = new ArrayList<>(dataProcessors);
         this.inputFile = inputFile;
         this.inputContent = inputContent;
         this.outputFile = outputFile;
@@ -115,7 +115,7 @@ public class SiofGui implements Runnable {
     @Override
     public void run() {
         MainFrame mainFrame = new MainFrame(
-            solutions,
+            dataProcessors,
             inputFile, inputContent,
             outputFile, outputContent,
             checkOutputFile, checkOutputContent

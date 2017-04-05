@@ -1,4 +1,4 @@
-package hu.webarticum.siof.gui;
+package hu.webarticum.sdpf.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

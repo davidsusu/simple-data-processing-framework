@@ -1,4 +1,4 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 import java.util.ArrayList;
 import java.util.List;

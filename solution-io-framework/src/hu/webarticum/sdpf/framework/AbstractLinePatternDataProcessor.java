@@ -1,4 +1,4 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 /**
  * Base class for data processors based on tuples of lines, optinally with header
  */
-public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
+public abstract class AbstractLinePatternDataProcessor extends AbstractTextDataProcessor {
 
     private final int headerHeight;
 
@@ -18,17 +18,17 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
     private final boolean parseTrailing;
 
     /** See the major constructor */
-    protected AbstractLinePatternSolution() {
+    protected AbstractLinePatternDataProcessor() {
         this(0, 1);
     }
 
     /** See the major constructor */
-    protected AbstractLinePatternSolution(int headerHeight, int itemHeight) {
+    protected AbstractLinePatternDataProcessor(int headerHeight, int itemHeight) {
         this(headerHeight, itemHeight, false);
     }
 
     /** See the major constructor */
-    protected AbstractLinePatternSolution(int headerHeight, int itemHeight, boolean parseTrailing) {
+    protected AbstractLinePatternDataProcessor(int headerHeight, int itemHeight, boolean parseTrailing) {
         super();
         this.headerHeight = headerHeight;
         this.itemHeight = itemHeight;
@@ -38,7 +38,7 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
     /**
      * See the major constructor
      */
-    protected AbstractLinePatternSolution(int headerHeight, int itemHeight, boolean parseTrailing, Charset charset) {
+    protected AbstractLinePatternDataProcessor(int headerHeight, int itemHeight, boolean parseTrailing, Charset charset) {
         super(charset);
         this.headerHeight = headerHeight;
         this.itemHeight = itemHeight;
@@ -52,7 +52,7 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
      * @param inputCharset  expected character set of the input stream, not used with reader
      * @param outputCharset character set for the output stream, not used with writer
      */
-    protected AbstractLinePatternSolution(int headerHeight, int itemHeight, boolean parseTrailing, Charset inputCharset, Charset outputCharset) {
+    protected AbstractLinePatternDataProcessor(int headerHeight, int itemHeight, boolean parseTrailing, Charset inputCharset, Charset outputCharset) {
         super(inputCharset, inputCharset);
         this.headerHeight = headerHeight;
         this.itemHeight = itemHeight;
@@ -81,8 +81,8 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
                 }
             } else {
                 if (buffer.getHeight() == itemHeight) {
-                    String itemSolution = solveItem(itemIndex++, buffer.toString());
-                    outputWriter.write(itemSolution + LINE_SEPARATOR);
+                    String itemOutput = solveItem(itemIndex++, buffer.toString());
+                    outputWriter.write(itemOutput + LINE_SEPARATOR);
                     buffer.clear();
                 }
             }
@@ -92,8 +92,8 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
             if (isHeaderMode) {
                 parseHeader(buffer.toString(), outputWriter);
             } else {
-                String itemSolution = solveItem(itemIndex, buffer.toString());
-                outputWriter.write(itemSolution + LINE_SEPARATOR);
+                String itemOutput = solveItem(itemIndex, buffer.toString());
+                outputWriter.write(itemOutput + LINE_SEPARATOR);
             }
         }
         
@@ -103,7 +103,7 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
      * Write code here to process the header part
      * 
      * @param header        content of the header part
-     * @param outputWriter  the Writer of the solution
+     * @param outputWriter  the Writer of the output
      * @throws IOException
      */
     protected abstract void parseHeader(String header, Writer outputWriter) throws IOException;

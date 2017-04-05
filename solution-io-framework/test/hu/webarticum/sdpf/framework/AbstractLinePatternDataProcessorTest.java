@@ -1,4 +1,4 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 import static org.junit.Assert.*;
 
@@ -7,11 +7,14 @@ import java.io.Writer;
 
 import org.junit.Test;
 
-public class AbstractLinePatternSolutionTest {
+import hu.webarticum.sdpf.framework.AbstractLinePatternDataProcessor;
+import hu.webarticum.sdpf.framework.StringDataProcessorWrapper;
+
+public class AbstractLinePatternDataProcessorTest {
 
     @Test
     public void singleLineItemsTest() {
-        AbstractLinePatternSolution solution = new AbstractLinePatternSolution(0, 1, false) {
+        AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(0, 1, false) {
             
             @Override
             protected String solveItem(int itemIndex, String item) {
@@ -23,7 +26,7 @@ public class AbstractLinePatternSolutionTest {
             }
             
         };
-        StringSolutionWrapper wrapper = new StringSolutionWrapper(solution);
+        StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
         assertEquals("", wrapper.solve(""));
         assertEquals("#0: 'line1'\n", wrapper.solve("line1"));
@@ -32,7 +35,7 @@ public class AbstractLinePatternSolutionTest {
 
     @Test
     public void multiLineItemsTest() {
-        AbstractLinePatternSolution solution = new AbstractLinePatternSolution(0, 3, false) {
+        AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(0, 3, false) {
             
             @Override
             protected String solveItem(int itemIndex, String item) {
@@ -44,7 +47,7 @@ public class AbstractLinePatternSolutionTest {
             }
             
         };
-        StringSolutionWrapper wrapper = new StringSolutionWrapper(solution);
+        StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
         assertEquals("", wrapper.solve(""));
         assertEquals("1;2;3\n", wrapper.solve("1\n2\n3"));
@@ -54,7 +57,7 @@ public class AbstractLinePatternSolutionTest {
 
     @Test
     public void trailingTest() {
-        AbstractLinePatternSolution solution = new AbstractLinePatternSolution(0, 3, true) {
+        AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(0, 3, true) {
             
             @Override
             protected String solveItem(int itemIndex, String item) {
@@ -66,7 +69,7 @@ public class AbstractLinePatternSolutionTest {
             }
             
         };
-        StringSolutionWrapper wrapper = new StringSolutionWrapper(solution);
+        StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
         assertEquals("", wrapper.solve(""));
         assertEquals("1;2;3\n", wrapper.solve("1\n2\n3"));
@@ -76,7 +79,7 @@ public class AbstractLinePatternSolutionTest {
 
     @Test
     public void headerTest() {
-        AbstractLinePatternSolution solution = new AbstractLinePatternSolution(2, 3, false) {
+        AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(2, 3, false) {
             
             @Override
             protected String solveItem(int itemIndex, String item) {
@@ -89,7 +92,7 @@ public class AbstractLinePatternSolutionTest {
             }
             
         };
-        StringSolutionWrapper wrapper = new StringSolutionWrapper(solution);
+        StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
         assertEquals("", wrapper.solve(""));
         assertEquals("", wrapper.solve("h"));
@@ -101,7 +104,7 @@ public class AbstractLinePatternSolutionTest {
 
     @Test
     public void headerTrailingTest() {
-        AbstractLinePatternSolution solution = new AbstractLinePatternSolution(2, 3, true) {
+        AbstractLinePatternDataProcessor dataProcessor = new AbstractLinePatternDataProcessor(2, 3, true) {
             
             @Override
             protected String solveItem(int itemIndex, String item) {
@@ -114,7 +117,7 @@ public class AbstractLinePatternSolutionTest {
             }
             
         };
-        StringSolutionWrapper wrapper = new StringSolutionWrapper(solution);
+        StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
         assertEquals("", wrapper.solve(""));
         assertEquals("HEAD FOUND\n", wrapper.solve("h"));

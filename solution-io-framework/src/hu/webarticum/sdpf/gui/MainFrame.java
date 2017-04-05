@@ -1,4 +1,4 @@
-package hu.webarticum.siof.gui;
+package hu.webarticum.sdpf.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,8 +29,8 @@ import javax.swing.plaf.SplitPaneUI;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
-import hu.webarticum.siof.example.TextExample;
-import hu.webarticum.siof.framework.TextSolution;
+import hu.webarticum.sdpf.example.TextExample;
+import hu.webarticum.sdpf.framework.TextDataProcessor;
 
 /**
  * A Swing JFrame for running data processors
@@ -46,7 +46,7 @@ public class MainFrame extends JFrame {
     
     private JSplitPane bottomSplitPane;
     
-    private JComboBox<TextSolution> solutionComboBox;
+    private JComboBox<TextDataProcessor> dataProcessorComboBox;
     
     private JCheckBox reloadContentsCheckBox;
     
@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
     
     
     /**
-     * @param solutions             solutions will be listed in a combo box, the first will be selected
+     * @param dataProcessors        data processors will be listed in a combo box, the first will be selected
      * @param inputFile             an associated file for input or null
      * @param inputContent          the input to solve
      * @param outputFile            an associated file for output or null
@@ -69,7 +69,7 @@ public class MainFrame extends JFrame {
      * @param checkOutputContent    expected output
      */
     public MainFrame(
-        List<TextSolution> solutions,
+        List<TextDataProcessor> dataProcessors,
         File inputFile,
         String inputContent,
         File outputFile,
@@ -77,7 +77,7 @@ public class MainFrame extends JFrame {
         File expectedOutputFile,
         String expectedOutputContent
     ) {
-        setTitle("Solution tester window");
+        setTitle("Data processor tester window");
         
         outerSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         makeSplitPaneResettable(outerSplitPane, 0.4);
@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                runSolution();
+                runDataProcessor();
             }
             
         });
@@ -134,24 +134,24 @@ public class MainFrame extends JFrame {
         bottomSplitPane.add(outputContentPanel);
         
         
-        JPanel solutionSelectPanel = new JPanel();
-        solutionSelectPanel.setLayout(new BorderLayout());
-        settingsPanel.add(solutionSelectPanel, BorderLayout.CENTER);
+        JPanel dataProcessorSelectPanel = new JPanel();
+        dataProcessorSelectPanel.setLayout(new BorderLayout());
+        settingsPanel.add(dataProcessorSelectPanel, BorderLayout.CENTER);
 
-        solutionSelectPanel.add(new JLabel("Solution:"), BorderLayout.LINE_START);
+        dataProcessorSelectPanel.add(new JLabel("Data processor:"), BorderLayout.LINE_START);
         
-        solutionComboBox = new JComboBox<>();
-        TextSolution[] solutionArray = solutions.toArray(new TextSolution[solutions.size()]);
-        solutionComboBox.setModel(new DefaultComboBoxModel<>(solutionArray));
-        solutionComboBox.addItemListener(new ItemListener() {
+        dataProcessorComboBox = new JComboBox<>();
+        TextDataProcessor[] dataProcessorArray = dataProcessors.toArray(new TextDataProcessor[dataProcessors.size()]);
+        dataProcessorComboBox.setModel(new DefaultComboBoxModel<>(dataProcessorArray));
+        dataProcessorComboBox.addItemListener(new ItemListener() {
             
             @Override
             public void itemStateChanged(ItemEvent ev) {
-                loadSolution();
+                loadDataProcessor();
             }
             
         });
-        solutionSelectPanel.add(solutionComboBox);
+        dataProcessorSelectPanel.add(dataProcessorComboBox);
 
         JPanel reloadContentsPanel = new JPanel();
         reloadContentsPanel.setLayout(new BorderLayout());
@@ -164,7 +164,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ev) {
                 if (reloadContentsCheckBox.isSelected()) {
-                    loadSolution();
+                    loadDataProcessor();
                 }
             }
             
@@ -197,16 +197,16 @@ public class MainFrame extends JFrame {
         pack();
         
         
-        loadSolution();
+        loadDataProcessor();
     }
     
     /**
-     * Runs the currently selected solution with the current input
+     * Runs the currently selected data processor with the current input
      * 
      * This will be run when user clicks on the 'Run' button
      */
-    public void runSolution() {
-        TextSolution solution = (TextSolution)solutionComboBox.getSelectedItem();
+    public void runDataProcessor() {
+        TextDataProcessor dataProcessor = (TextDataProcessor)dataProcessorComboBox.getSelectedItem();
         
         String input = inputContentPanel.getContent();
         
@@ -214,7 +214,7 @@ public class MainFrame extends JFrame {
         StringWriter outputWriter = new StringWriter();
         
         try {
-            solution.solve(inputReader, outputWriter);
+            dataProcessor.solve(inputReader, outputWriter);
         } catch (Throwable e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(
@@ -230,14 +230,14 @@ public class MainFrame extends JFrame {
         outputContentPanel.setContent(output);
     }
     
-    private void loadSolution() {
-        TextSolution solution = (TextSolution)solutionComboBox.getSelectedItem();
+    private void loadDataProcessor() {
+        TextDataProcessor dataProcessor = (TextDataProcessor)dataProcessorComboBox.getSelectedItem();
         if (reloadContentsCheckBox.isSelected()) {
-            if (solution instanceof TextExample) {
-                inputContentPanel.setContent(((TextExample)solution).getSampleInputContent());
+            if (dataProcessor instanceof TextExample) {
+                inputContentPanel.setContent(((TextExample)dataProcessor).getSampleInputContent());
                 outputContentPanel.setContent("");
                 expectedOutputContentPanel.setContent("");
-                runSolution();
+                runDataProcessor();
             } else {
                 inputContentPanel.setContent("");
                 outputContentPanel.setContent("");

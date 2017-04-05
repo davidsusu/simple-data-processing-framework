@@ -1,4 +1,4 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 /**
  * Helper class for buffering lines of text

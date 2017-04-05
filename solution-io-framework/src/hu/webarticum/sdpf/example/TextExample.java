@@ -1,14 +1,14 @@
-package hu.webarticum.siof.example;
+package hu.webarticum.sdpf.example;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import hu.webarticum.siof.framework.TextSolution;
+import hu.webarticum.sdpf.framework.TextDataProcessor;
 
 /**
  * Interface for character based examples with an associated sample input
  */
-public interface TextExample extends Example, TextSolution {
+public interface TextExample extends Example, TextDataProcessor {
 
     @Override
     public default InputStream getSampleInputStream() {

@@ -1,4 +1,4 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -7,22 +7,22 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-public abstract class AbstractTextSolution extends AbstractSolution implements TextSolution {
+public abstract class AbstractTextDataProcessor extends AbstractDataProcessor implements TextDataProcessor {
     
     static public final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     
     private final Charset inputCharset;
     private final Charset outputCharset;
     
-    protected AbstractTextSolution() {
+    protected AbstractTextDataProcessor() {
         this(DEFAULT_CHARSET);
     }
 
-    protected AbstractTextSolution(Charset charset) {
+    protected AbstractTextDataProcessor(Charset charset) {
         this(charset, charset);
     }
     
-    protected AbstractTextSolution(Charset inputCharset, Charset outputCharset) {
+    protected AbstractTextDataProcessor(Charset inputCharset, Charset outputCharset) {
         this.inputCharset = inputCharset;
         this.outputCharset = outputCharset;
     }

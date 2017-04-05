@@ -1,13 +1,13 @@
-package hu.webarticum.siof.example;
+package hu.webarticum.sdpf.example;
 
 import java.io.InputStream;
 
-import hu.webarticum.siof.framework.Solution;
+import hu.webarticum.sdpf.framework.DataProcessor;
 
 /**
  * Interface for examples with an associated sample input
  */
-public interface Example extends Solution {
+public interface Example extends DataProcessor {
     
     public InputStream getSampleInputStream();
     

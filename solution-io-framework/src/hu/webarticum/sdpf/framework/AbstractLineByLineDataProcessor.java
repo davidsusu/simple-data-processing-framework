@@ -1,4 +1,4 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 /**
  * Base class for simple line based data processors
@@ -9,9 +9,9 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-public abstract class AbstractLineByLineSolution extends AbstractTextSolution {
+public abstract class AbstractLineByLineDataProcessor extends AbstractTextDataProcessor {
 
-    protected AbstractLineByLineSolution() {
+    protected AbstractLineByLineDataProcessor() {
         super();
     }
 
@@ -20,7 +20,7 @@ public abstract class AbstractLineByLineSolution extends AbstractTextSolution {
      * 
      * @param charset
      */
-    protected AbstractLineByLineSolution(Charset charset) {
+    protected AbstractLineByLineDataProcessor(Charset charset) {
         super(charset);
     }
 
@@ -30,7 +30,7 @@ public abstract class AbstractLineByLineSolution extends AbstractTextSolution {
      * @param inputCharset  expected character set of the input stream
      * @param outputCharset character set for the output stream
      */
-    protected AbstractLineByLineSolution(Charset inputCharset, Charset outputCharset) {
+    protected AbstractLineByLineDataProcessor(Charset inputCharset, Charset outputCharset) {
         super(inputCharset, inputCharset);
     }
     

@@ -1,8 +1,10 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import hu.webarticum.sdpf.framework.LineBuffer;
 
 public class LineBufferTest {
 

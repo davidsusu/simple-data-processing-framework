@@ -1,14 +1,17 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class AbstractLineByLineSolutionTest {
+import hu.webarticum.sdpf.framework.AbstractLineByLineDataProcessor;
+import hu.webarticum.sdpf.framework.StringDataProcessorWrapper;
+
+public class AbstractLineByLineDataProcessorTest {
 
     @Test
     public void test() {
-        AbstractLineByLineSolution solution = new AbstractLineByLineSolution() {
+        AbstractLineByLineDataProcessor processor = new AbstractLineByLineDataProcessor() {
             
             @Override
             protected String solveLine(int lineIndex, String inputLine) {
@@ -16,7 +19,7 @@ public class AbstractLineByLineSolutionTest {
             }
             
         };
-        StringSolutionWrapper wrapper = new StringSolutionWrapper(solution);
+        StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(processor);
 
         assertEquals("", wrapper.solve(""));
         assertEquals("#0: 'line1'\n", wrapper.solve("line1"));

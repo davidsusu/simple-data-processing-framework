@@ -1,14 +1,14 @@
-package hu.webarticum.siof.example;
+package hu.webarticum.sdpf.example;
 
 import java.io.IOException;
 import java.io.Writer;
 
-import hu.webarticum.siof.framework.AbstractLinePatternSolution;
+import hu.webarticum.sdpf.framework.AbstractLinePatternDataProcessor;
 
 /**
  * This example demonstrates how to parse headers and multiple-line items
  */
-public class MultilineExample extends AbstractLinePatternSolution implements TextExample {
+public class MultilineExample extends AbstractLinePatternDataProcessor implements TextExample {
     
     public MultilineExample() {
         super(3, 2);

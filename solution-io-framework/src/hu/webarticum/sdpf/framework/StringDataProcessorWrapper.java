@@ -1,4 +1,4 @@
-package hu.webarticum.siof.framework;
+package hu.webarticum.sdpf.framework;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,12 +8,12 @@ import java.io.InputStream;
 /**
  * Simplifier adapter for data processors
  */
-public class StringSolutionWrapper {
+public class StringDataProcessorWrapper {
     
-    private final Solution solution;
+    private final DataProcessor dataProcessor;
     
-    public StringSolutionWrapper(Solution solution) {
-        this.solution = solution;
+    public StringDataProcessorWrapper(DataProcessor dataProcessor) {
+        this.dataProcessor = dataProcessor;
     }
     
     /**
@@ -24,7 +24,7 @@ public class StringSolutionWrapper {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         
         try {
-            solution.solve(sampleInputStream, outputStream);
+            dataProcessor.solve(sampleInputStream, outputStream);
         } catch (IOException e) {
         }
         
