@@ -24,7 +24,7 @@ public class StringDataProcessorWrapper {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         
         try {
-            dataProcessor.solve(sampleInputStream, outputStream);
+            dataProcessor.process(sampleInputStream, outputStream);
         } catch (IOException e) {
         }
         

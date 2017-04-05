@@ -16,6 +16,6 @@ public interface DataProcessor {
      * @param outputStream  a stream for output
      * @throws IOException
      */
-    public void solve(InputStream inputStream, OutputStream outputStream) throws IOException;
+    public void process(InputStream inputStream, OutputStream outputStream) throws IOException;
     
 }

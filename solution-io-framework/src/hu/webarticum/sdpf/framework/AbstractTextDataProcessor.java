@@ -27,7 +27,7 @@ public abstract class AbstractTextDataProcessor extends AbstractDataProcessor im
         this.outputCharset = outputCharset;
     }
     
-    public void solve(InputStream inputStream, OutputStream outputStream) throws IOException {
+    public void process(InputStream inputStream, OutputStream outputStream) throws IOException {
         try (OutputStreamWriter writer = new OutputStreamWriter(outputStream, outputCharset)) {
             solve(new InputStreamReader(inputStream, inputCharset), writer);
         }
