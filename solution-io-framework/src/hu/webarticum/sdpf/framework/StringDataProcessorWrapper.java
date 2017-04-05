@@ -19,7 +19,7 @@ public class StringDataProcessorWrapper {
     /**
      * Processed the given input and returns with the result as a string
      */
-    public String solve(String input) {
+    public String process(String input) {
         InputStream sampleInputStream = new ByteArrayInputStream(input.getBytes());
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         

@@ -21,9 +21,9 @@ public class AbstractLineByLineDataProcessorTest {
         };
         StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(processor);
 
-        assertEquals("", wrapper.solve(""));
-        assertEquals("#0: 'line1'\n", wrapper.solve("line1"));
-        assertEquals("#0: 'line1'\n#1: 'line2'\n", wrapper.solve("line1\nline2"));
+        assertEquals("", wrapper.process(""));
+        assertEquals("#0: 'line1'\n", wrapper.process("line1"));
+        assertEquals("#0: 'line1'\n#1: 'line2'\n", wrapper.process("line1\nline2"));
     }
 
 }

@@ -28,9 +28,9 @@ public class AbstractLinePatternDataProcessorTest {
         };
         StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
-        assertEquals("", wrapper.solve(""));
-        assertEquals("#0: 'line1'\n", wrapper.solve("line1"));
-        assertEquals("#0: 'line1'\n#1: 'line2'\n", wrapper.solve("line1\nline2"));
+        assertEquals("", wrapper.process(""));
+        assertEquals("#0: 'line1'\n", wrapper.process("line1"));
+        assertEquals("#0: 'line1'\n#1: 'line2'\n", wrapper.process("line1\nline2"));
     }
 
     @Test
@@ -49,10 +49,10 @@ public class AbstractLinePatternDataProcessorTest {
         };
         StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
-        assertEquals("", wrapper.solve(""));
-        assertEquals("1;2;3\n", wrapper.solve("1\n2\n3"));
-        assertEquals("1;2;3\n4;5;6\n", wrapper.solve("1\n2\n3\n4\n5\n6"));
-        assertEquals("1;2;3\n4;5;6\n", wrapper.solve("1\n2\n3\n4\n5\n6\n7\n8"));
+        assertEquals("", wrapper.process(""));
+        assertEquals("1;2;3\n", wrapper.process("1\n2\n3"));
+        assertEquals("1;2;3\n4;5;6\n", wrapper.process("1\n2\n3\n4\n5\n6"));
+        assertEquals("1;2;3\n4;5;6\n", wrapper.process("1\n2\n3\n4\n5\n6\n7\n8"));
     }
 
     @Test
@@ -71,10 +71,10 @@ public class AbstractLinePatternDataProcessorTest {
         };
         StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
-        assertEquals("", wrapper.solve(""));
-        assertEquals("1;2;3\n", wrapper.solve("1\n2\n3"));
-        assertEquals("1;2;3\n4;5;6\n", wrapper.solve("1\n2\n3\n4\n5\n6"));
-        assertEquals("1;2;3\n4;5;6\n7;8\n", wrapper.solve("1\n2\n3\n4\n5\n6\n7\n8"));
+        assertEquals("", wrapper.process(""));
+        assertEquals("1;2;3\n", wrapper.process("1\n2\n3"));
+        assertEquals("1;2;3\n4;5;6\n", wrapper.process("1\n2\n3\n4\n5\n6"));
+        assertEquals("1;2;3\n4;5;6\n7;8\n", wrapper.process("1\n2\n3\n4\n5\n6\n7\n8"));
     }
 
     @Test
@@ -94,12 +94,12 @@ public class AbstractLinePatternDataProcessorTest {
         };
         StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
-        assertEquals("", wrapper.solve(""));
-        assertEquals("", wrapper.solve("h"));
-        assertEquals("HEAD FOUND\n", wrapper.solve("h\nh"));
-        assertEquals("HEAD FOUND\n1;2;3\n", wrapper.solve("h\nh\n1\n2\n3"));
-        assertEquals("HEAD FOUND\n1;2;3\n4;5;6\n", wrapper.solve("h\nh\n1\n2\n3\n4\n5\n6"));
-        assertEquals("HEAD FOUND\n1;2;3\n4;5;6\n", wrapper.solve("h\nh\n1\n2\n3\n4\n5\n6\n7\n8"));
+        assertEquals("", wrapper.process(""));
+        assertEquals("", wrapper.process("h"));
+        assertEquals("HEAD FOUND\n", wrapper.process("h\nh"));
+        assertEquals("HEAD FOUND\n1;2;3\n", wrapper.process("h\nh\n1\n2\n3"));
+        assertEquals("HEAD FOUND\n1;2;3\n4;5;6\n", wrapper.process("h\nh\n1\n2\n3\n4\n5\n6"));
+        assertEquals("HEAD FOUND\n1;2;3\n4;5;6\n", wrapper.process("h\nh\n1\n2\n3\n4\n5\n6\n7\n8"));
     }
 
     @Test
@@ -119,12 +119,12 @@ public class AbstractLinePatternDataProcessorTest {
         };
         StringDataProcessorWrapper wrapper = new StringDataProcessorWrapper(dataProcessor);
 
-        assertEquals("", wrapper.solve(""));
-        assertEquals("HEAD FOUND\n", wrapper.solve("h"));
-        assertEquals("HEAD FOUND\n", wrapper.solve("h\nh"));
-        assertEquals("HEAD FOUND\n1;2;3\n", wrapper.solve("h\nh\n1\n2\n3"));
-        assertEquals("HEAD FOUND\n1;2;3\n4;5;6\n", wrapper.solve("h\nh\n1\n2\n3\n4\n5\n6"));
-        assertEquals("HEAD FOUND\n1;2;3\n4;5;6\n7;8\n", wrapper.solve("h\nh\n1\n2\n3\n4\n5\n6\n7\n8"));
+        assertEquals("", wrapper.process(""));
+        assertEquals("HEAD FOUND\n", wrapper.process("h"));
+        assertEquals("HEAD FOUND\n", wrapper.process("h\nh"));
+        assertEquals("HEAD FOUND\n1;2;3\n", wrapper.process("h\nh\n1\n2\n3"));
+        assertEquals("HEAD FOUND\n1;2;3\n4;5;6\n", wrapper.process("h\nh\n1\n2\n3\n4\n5\n6"));
+        assertEquals("HEAD FOUND\n1;2;3\n4;5;6\n7;8\n", wrapper.process("h\nh\n1\n2\n3\n4\n5\n6\n7\n8"));
         
     }
     
