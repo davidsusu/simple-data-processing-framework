@@ -32,6 +32,9 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import hu.webarticum.siof.example.TextExample;
 import hu.webarticum.siof.framework.TextSolution;
 
+/**
+ * A Swing JFrame for running data processors
+ */
 public class MainFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -53,17 +56,26 @@ public class MainFrame extends JFrame {
     
     private ContentPanel outputContentPanel;
     
-    private ContentPanel checkOutputContentPanel;
+    private ContentPanel expectedOutputContentPanel;
     
     
+    /**
+     * @param solutions             solutions will be listed in a combo box, the first will be selected
+     * @param inputFile             an associated file for input or null
+     * @param inputContent          the input to solve
+     * @param outputFile            an associated file for output or null
+     * @param outputContent         a sample output
+     * @param checkOutputFile       an associated file for expected output or null
+     * @param checkOutputContent    expected output
+     */
     public MainFrame(
         List<TextSolution> solutions,
         File inputFile,
         String inputContent,
         File outputFile,
         String outputContent,
-        File checkOutputFile,
-        String checkOutputContent
+        File expectedOutputFile,
+        String expectedOutputContent
     ) {
         setTitle("Solution tester window");
         
@@ -104,12 +116,12 @@ public class MainFrame extends JFrame {
         });
         buttonPanel.add(runButton, BorderLayout.LINE_END);
         
-        checkOutputContentPanel = new ContentPanel(
-            "Expected", new Color(0x596E9B), checkOutputContent,
-            checkOutputFile == null ? "" : checkOutputFile.getPath()
+        expectedOutputContentPanel = new ContentPanel(
+            "Expected", new Color(0x596E9B), expectedOutputContent,
+            expectedOutputFile == null ? "" : expectedOutputFile.getPath()
         );
-        checkOutputContentPanel.setEnabled(false);
-        topSplitPane.add(checkOutputContentPanel);
+        expectedOutputContentPanel.setEnabled(false);
+        topSplitPane.add(expectedOutputContentPanel);
 
         inputContentPanel = new ContentPanel(
             "Input", new Color(0x6F9B59), inputContent, inputFile == null ? "" : inputFile.getPath()
@@ -169,7 +181,7 @@ public class MainFrame extends JFrame {
             
             @Override
             public void actionPerformed(ActionEvent ev) {
-                checkOutputContentPanel.setEnabled(useCheckOutputContentPanelCheckBox.isSelected());
+                expectedOutputContentPanel.setEnabled(useCheckOutputContentPanelCheckBox.isSelected());
             }
             
         });
@@ -177,7 +189,7 @@ public class MainFrame extends JFrame {
         
         
         controlPanel.setPreferredSize(new Dimension(390, 180));
-        checkOutputContentPanel.setPreferredSize(new Dimension(390, 180));
+        expectedOutputContentPanel.setPreferredSize(new Dimension(390, 180));
         inputContentPanel.setPreferredSize(new Dimension(390, 300));
         outputContentPanel.setPreferredSize(new Dimension(390, 300));
         
@@ -188,6 +200,11 @@ public class MainFrame extends JFrame {
         loadSolution();
     }
     
+    /**
+     * Runs the currently selected solution with the current input
+     * 
+     * This will be run when user clicks on the 'Run' button
+     */
     public void runSolution() {
         TextSolution solution = (TextSolution)solutionComboBox.getSelectedItem();
         
@@ -219,12 +236,12 @@ public class MainFrame extends JFrame {
             if (solution instanceof TextExample) {
                 inputContentPanel.setContent(((TextExample)solution).getSampleInputContent());
                 outputContentPanel.setContent("");
-                checkOutputContentPanel.setContent("");
+                expectedOutputContentPanel.setContent("");
                 runSolution();
             } else {
                 inputContentPanel.setContent("");
                 outputContentPanel.setContent("");
-                checkOutputContentPanel.setContent("");
+                expectedOutputContentPanel.setContent("");
             }
         }
     }

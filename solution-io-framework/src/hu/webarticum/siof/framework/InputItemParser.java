@@ -5,16 +5,40 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Helper class for parsing numeric or other data tokens
+ */
 public class InputItemParser {
     
     private final Pattern pattern;
     
     private final List<Character> typeCharacters;
     
+    /**
+     * @param patternString simplified pattern, see useRegex in the other constructor
+     */
     public InputItemParser(String patternString) {
         this(patternString, false);
     }
-    
+
+    /**
+     * If useRegex is false, then patternString will be interpreted as a simplified expression.
+     * You can use only the following place-holders in this expression:
+     * 
+     * <ul>
+     *  <li><code>%d</code> integral value (int)</li>
+     *  <li><code>%f</code> floating point value (double)</li>
+     *  <li><code>%w</code> word (sequence of word characters, same as <code>\w+</code> in a regular expression)</li>
+     *  <li><code>%s</code> any character sequence (except line break)</li>
+     * </ul>
+     * 
+     * However, you can use these place-holders in regular expression mode too.
+     * Place-holders will be converted to capturing groups, and all other explicitly written
+     * capturing group will be converted to non capturing.
+     * 
+     * @param patternString simplified pattern or regular expression
+     * @param useRegex      if true then patternString will be interpreted as a regular expression
+     */
     public InputItemParser(String patternString, boolean useRegex) {
         String normalizedPattern;
         if (useRegex) {

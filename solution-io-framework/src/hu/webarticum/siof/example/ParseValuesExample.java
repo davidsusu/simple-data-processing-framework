@@ -6,6 +6,9 @@ import java.util.Locale;
 import hu.webarticum.siof.framework.AbstractLineByLineSolution;
 import hu.webarticum.siof.framework.InputItemParser;
 
+/**
+ * This example demonstrates how to process lines matching to a given pattern
+ */
 public class ParseValuesExample extends AbstractLineByLineSolution implements TextExample {
     
     public static final String PATTERN = "%w, %d, %f";

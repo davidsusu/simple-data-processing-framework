@@ -5,6 +5,9 @@ import java.io.Writer;
 
 import hu.webarticum.siof.framework.AbstractLinePatternSolution;
 
+/**
+ * This example demonstrates how to parse headers and multiple-line items
+ */
 public class MultilineExample extends AbstractLinePatternSolution implements TextExample {
     
     public MultilineExample() {

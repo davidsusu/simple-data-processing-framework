@@ -5,6 +5,9 @@ import java.io.InputStream;
 
 import hu.webarticum.siof.framework.TextSolution;
 
+/**
+ * Interface for character based examples with an associated sample input
+ */
 public interface TextExample extends Example, TextSolution {
 
     @Override

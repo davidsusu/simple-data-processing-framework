@@ -6,6 +6,9 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
+/**
+ * Base class for data processors based on tuples of lines, optinally with header
+ */
 public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
 
     private final int headerHeight;
@@ -14,14 +17,17 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
 
     private final boolean parseTrailing;
 
+    /** See the major constructor */
     protected AbstractLinePatternSolution() {
         this(0, 1);
     }
 
+    /** See the major constructor */
     protected AbstractLinePatternSolution(int headerHeight, int itemHeight) {
         this(headerHeight, itemHeight, false);
     }
 
+    /** See the major constructor */
     protected AbstractLinePatternSolution(int headerHeight, int itemHeight, boolean parseTrailing) {
         super();
         this.headerHeight = headerHeight;
@@ -29,6 +35,9 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
         this.parseTrailing = parseTrailing;
     }
 
+    /**
+     * See the major constructor
+     */
     protected AbstractLinePatternSolution(int headerHeight, int itemHeight, boolean parseTrailing, Charset charset) {
         super(charset);
         this.headerHeight = headerHeight;
@@ -36,6 +45,13 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
         this.parseTrailing = parseTrailing;
     }
 
+    /**
+     * @param headerHeight  number of expected header lines
+     * @param itemHeight    number of lines per input item
+     * @param parseTrailing if true then an incomplete header or last item will be interpreted too
+     * @param inputCharset  expected character set of the input stream, not used with reader
+     * @param outputCharset character set for the output stream, not used with writer
+     */
     protected AbstractLinePatternSolution(int headerHeight, int itemHeight, boolean parseTrailing, Charset inputCharset, Charset outputCharset) {
         super(inputCharset, inputCharset);
         this.headerHeight = headerHeight;
@@ -83,8 +99,22 @@ public abstract class AbstractLinePatternSolution extends AbstractTextSolution {
         
     }
     
+    /**
+     * Write code here to process the header part
+     * 
+     * @param header        content of the header part
+     * @param outputWriter  the Writer of the solution
+     * @throws IOException
+     */
     protected abstract void parseHeader(String header, Writer outputWriter) throws IOException;
 
+    /**
+     * Write code here to process a single item, possibly with multiple lines
+     * 
+     * @param itemIndex index of the current input item (0-based, excluding header part)
+     * @param item      content of the current input item
+     * @return
+     */
     protected abstract String solveItem(int itemIndex, String item);
 
 }
