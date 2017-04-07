@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 import hu.webarticum.sdpf.example.TextExample;
 import hu.webarticum.sdpf.framework.TextDataProcessor;
 
-public class SiofGui implements Runnable {
+public class SdpfGui implements Runnable {
     
     private final List<TextDataProcessor> dataProcessors;
 
@@ -37,27 +37,27 @@ public class SiofGui implements Runnable {
 
     private final String diffCommand;
 
-    public SiofGui(TextDataProcessor... dataProcessors) {
+    public SdpfGui(TextDataProcessor... dataProcessors) {
         this(Arrays.asList(dataProcessors));
     }
 
-    public SiofGui(TextExample example) {
+    public SdpfGui(TextExample example) {
         this(Arrays.asList(example), example.getSampleInputContent());
     }
 
-    public SiofGui(TextDataProcessor dataProcessor, File inputFile, File outputFile) {
+    public SdpfGui(TextDataProcessor dataProcessor, File inputFile, File outputFile) {
         this(Arrays.asList(dataProcessor), inputFile, outputFile);
     }
 
-    public SiofGui(TextDataProcessor dataProcessor, String inputContent) {
+    public SdpfGui(TextDataProcessor dataProcessor, String inputContent) {
         this(Arrays.asList(dataProcessor), inputContent);
     }
 
-    public SiofGui(Collection<TextDataProcessor> dataProcessors) {
+    public SdpfGui(Collection<TextDataProcessor> dataProcessors) {
         this(dataProcessors, null, "", null, "", null, "", "");
     }
 
-    public SiofGui(Collection<TextDataProcessor> dataProcessors, File inputFile, File outputFile) {
+    public SdpfGui(Collection<TextDataProcessor> dataProcessors, File inputFile, File outputFile) {
         this(
             dataProcessors, inputFile,
             readFileSilently(inputFile), outputFile,
@@ -65,11 +65,11 @@ public class SiofGui implements Runnable {
         );
     }
 
-    public SiofGui(Collection<TextDataProcessor> dataProcessors, String inputContent) {
+    public SdpfGui(Collection<TextDataProcessor> dataProcessors, String inputContent) {
         this(dataProcessors, null, inputContent, null, "", null, "", "");
     }
 
-    public SiofGui(
+    public SdpfGui(
         TextDataProcessor[] dataProcessors,
         File inputFile,
         String inputContent,
@@ -91,7 +91,7 @@ public class SiofGui implements Runnable {
         );
     }
 
-    public SiofGui(
+    public SdpfGui(
         Collection<TextDataProcessor> dataProcessors,
         File inputFile,
         String inputContent,

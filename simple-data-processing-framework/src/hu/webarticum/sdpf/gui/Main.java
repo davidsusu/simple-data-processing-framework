@@ -10,7 +10,7 @@ import hu.webarticum.sdpf.framework.TextDataProcessor;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        new SiofGui(
+        new SdpfGui(
             new TextDataProcessor[] {
                 new VerySimpleExample(),
                 new MultilineExample(),

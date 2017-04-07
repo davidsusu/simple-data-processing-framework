@@ -167,7 +167,7 @@ public class ContentPanel extends JLayeredPane {
         }
         
         try {
-            contentTextArea.setText(SiofGui.readFile(file));
+            contentTextArea.setText(SdpfGui.readFile(file));
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "File could not be loaded!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -188,7 +188,7 @@ public class ContentPanel extends JLayeredPane {
         }
         
         try {
-            SiofGui.writeFile(file, contentTextArea.getText());
+            SdpfGui.writeFile(file, contentTextArea.getText());
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "File could not be written!", "Error", JOptionPane.ERROR_MESSAGE);
