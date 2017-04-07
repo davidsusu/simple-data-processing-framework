@@ -3,6 +3,19 @@
 A simple framework for easy line-by-line data processing.
 
 
+## Introduction ##
+
+Main interface of this framework is `DataProcessor`. Data processors are input-output machines which read input from same `InputStream` or `Reader` and write output to an `OutputStream` or a `Writer`. The framework contains some abstract classes for the most common scenarios (`AbstractLineByLineDataProcessor`, `AbstractLinePatternDataProcessor` etc.).
+
+Simplest usage of a data processor is to read data from standard input and write to standard output:
+
+```java
+new YourDataProcessor().process(System.in, System.out);
+```
+
+Also, this is the way how you can "standardize" your solution for Google Code Jam (see https://code.google.com/codejam/resources/quickstart-guide).
+
+
 ## Process line by line ##
 
 Simplest way to process a text file is to handle each line separately. Extend `AbstractLineByLineDataProcessor` for this:
