@@ -10,8 +10,11 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -24,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.SplitPaneUI;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
@@ -50,14 +54,15 @@ public class MainFrame extends JFrame {
     
     private JCheckBox reloadContentsCheckBox;
     
-    private JCheckBox useCheckOutputContentPanelCheckBox;
+    private JCheckBox useExpectedOutputContentPanelCheckBox;
+    
+    private JTextField diffCommandTextField;
     
     private ContentPanel inputContentPanel;
     
     private ContentPanel outputContentPanel;
     
     private ContentPanel expectedOutputContentPanel;
-    
     
     /**
      * @param dataProcessors        data processors will be listed in a combo box, the first will be selected
@@ -75,7 +80,8 @@ public class MainFrame extends JFrame {
         File outputFile,
         String outputContent,
         File expectedOutputFile,
-        String expectedOutputContent
+        String expectedOutputContent,
+        String diffCommand
     ) {
         setTitle("Data processor tester window");
         
@@ -147,7 +153,9 @@ public class MainFrame extends JFrame {
             
             @Override
             public void itemStateChanged(ItemEvent ev) {
-                loadDataProcessor();
+                if (ev.getStateChange() == ItemEvent.SELECTED) {
+                    loadDataProcessor();
+                }
             }
             
         });
@@ -175,17 +183,27 @@ public class MainFrame extends JFrame {
         useCheckOutputPanel.setLayout(new BorderLayout());
         settingsPanel.add(useCheckOutputPanel);
         
-        useCheckOutputContentPanelCheckBox = new JCheckBox("Enable expected output");
-        useCheckOutputContentPanelCheckBox.setSelected(false);
-        useCheckOutputContentPanelCheckBox.addActionListener(new ActionListener() {
+        useExpectedOutputContentPanelCheckBox = new JCheckBox("Enable expected output");
+        useExpectedOutputContentPanelCheckBox.setSelected(false);
+        useExpectedOutputContentPanelCheckBox.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent ev) {
-                expectedOutputContentPanel.setEnabled(useCheckOutputContentPanelCheckBox.isSelected());
+                expectedOutputContentPanel.setEnabled(useExpectedOutputContentPanelCheckBox.isSelected());
             }
             
         });
-        useCheckOutputPanel.add(useCheckOutputContentPanelCheckBox, BorderLayout.LINE_START);
+        useCheckOutputPanel.add(useExpectedOutputContentPanelCheckBox, BorderLayout.LINE_START);
+
+        JPanel diffCommandPanel = new JPanel();
+        diffCommandPanel.setLayout(new BorderLayout());
+        settingsPanel.add(diffCommandPanel, BorderLayout.CENTER);
+
+        diffCommandPanel.add(new JLabel("Diff command:"), BorderLayout.LINE_START);
+        
+        diffCommandTextField = new JTextField();
+        diffCommandTextField.setText(diffCommand);
+        diffCommandPanel.add(diffCommandTextField);
         
         
         controlPanel.setPreferredSize(new Dimension(390, 180));
@@ -228,15 +246,55 @@ public class MainFrame extends JFrame {
         String output = outputWriter.toString();
         
         outputContentPanel.setContent(output);
+        
+        if (useExpectedOutputContentPanelCheckBox.isSelected()) {
+            String expectedOutput = expectedOutputContentPanel.getContent();
+            if (output.equals(expectedOutput)) {
+                expectedOutputContentPanel.highlight(new Color(0xAAEE77));
+                outputContentPanel.highlight(new Color(0xAAEE77));
+            } else {
+                String diffCommand = diffCommandTextField.getText();
+                if (diffCommand.isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                        this, "Output does not match to expected output!", "Unexpected output", JOptionPane.WARNING_MESSAGE
+                    );
+                } else {
+                    String SHOWDIFF_OPTION = "Show diff";
+                    String CANCEL_OPTION = "Cancel";
+                    int answer = JOptionPane.showOptionDialog(
+                        this,
+                        "Output does not match to expected output! What to do?", "Unexpected output",
+                        0, JOptionPane.WARNING_MESSAGE, null,
+                        new String[]{SHOWDIFF_OPTION, CANCEL_OPTION},
+                        SHOWDIFF_OPTION
+                    );
+                    if (answer == 0) {
+                        try {
+                            File outputTempFile = createTempFile("sdpf_output_%.tmp", output);
+                            File expectedOutputTempFile = createTempFile("sdpf_expected_output_%.tmp", expectedOutput);
+                            Runtime runtime = Runtime.getRuntime();
+                            runtime.exec(new String[]{diffCommand, outputTempFile.getAbsolutePath(), expectedOutputTempFile.getAbsolutePath()});
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            JOptionPane.showMessageDialog(
+                                this, "Something went wrong during diff initialization", "Oops", JOptionPane.ERROR_MESSAGE
+                            );
+                        }
+                    }
+                }
+            }
+        }
     }
     
     private void loadDataProcessor() {
         TextDataProcessor dataProcessor = (TextDataProcessor)dataProcessorComboBox.getSelectedItem();
         if (reloadContentsCheckBox.isSelected()) {
             if (dataProcessor instanceof TextExample) {
-                inputContentPanel.setContent(((TextExample)dataProcessor).getSampleInputContent());
+                String content = ((TextExample)dataProcessor).getSampleInputContent();
+                inputContentPanel.setContent(content);
                 outputContentPanel.setContent("");
-                expectedOutputContentPanel.setContent("");
+                useExpectedOutputContentPanelCheckBox.setSelected(false);
+                expectedOutputContentPanel.setEnabled(false);
                 runDataProcessor();
             } else {
                 inputContentPanel.setContent("");
@@ -279,6 +337,17 @@ public class MainFrame extends JFrame {
                 }
             });
         }
+    }
+    
+    private File createTempFile(String namePattern, String content) throws IOException {
+        String[] tokens = namePattern.split("%");
+        String prefix = tokens[0];
+        String suffix = tokens.length > 1 ? tokens[1] : "";
+        File file = File.createTempFile(prefix, suffix);
+        try (Writer writer = new FileWriter(file)) {
+            writer.write(content);
+        }
+        return file;
     }
     
 }

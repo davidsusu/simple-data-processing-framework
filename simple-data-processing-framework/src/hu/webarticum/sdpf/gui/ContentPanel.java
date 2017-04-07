@@ -37,6 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 public class ContentPanel extends JLayeredPane {
@@ -68,7 +69,10 @@ public class ContentPanel extends JLayeredPane {
     
     private boolean enabled = true;
     
-    private Color backgroundColor = Color.WHITE;;
+    private Color backgroundColor = Color.WHITE;
+    
+    
+    private Timer highlightTimer = null;
 
 
     private final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 24);
@@ -122,6 +126,26 @@ public class ContentPanel extends JLayeredPane {
         chooseFileButton.setEnabled(enabled);
         loadFileButton.setEnabled(enabled);
         saveFileButton.setEnabled(enabled);
+    }
+    
+    public void highlight(Color color) {
+        contentTextArea.setBackground(color);
+        
+        if (highlightTimer != null) {
+            highlightTimer.stop();
+        }
+        highlightTimer = new Timer(1500, new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                contentTextArea.setBackground(Color.WHITE);
+                
+                highlightTimer = null;
+            }
+            
+        });
+        highlightTimer.setRepeats(false);
+        highlightTimer.start();
     }
     
     public void tryToLoadFromAssociatedFile(boolean askToConfirmOverwrite) {
@@ -197,6 +221,7 @@ public class ContentPanel extends JLayeredPane {
         mainPanel.add(titleLabel, BorderLayout.PAGE_START);
         
         contentTextArea = new JTextArea();
+        contentTextArea.setBackground(Color.WHITE);
         contentScrollPane = new JScrollPane(contentTextArea);
         mainPanel.add(contentScrollPane, BorderLayout.CENTER);
         

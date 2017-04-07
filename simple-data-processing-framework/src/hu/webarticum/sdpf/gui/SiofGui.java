@@ -35,6 +35,8 @@ public class SiofGui implements Runnable {
 
     private final String checkOutputContent;
 
+    private final String diffCommand;
+
     public SiofGui(TextDataProcessor... dataProcessors) {
         this(Arrays.asList(dataProcessors));
     }
@@ -52,19 +54,41 @@ public class SiofGui implements Runnable {
     }
 
     public SiofGui(Collection<TextDataProcessor> dataProcessors) {
-        this(dataProcessors, null, "", null, "", null, "");
+        this(dataProcessors, null, "", null, "", null, "", "");
     }
 
     public SiofGui(Collection<TextDataProcessor> dataProcessors, File inputFile, File outputFile) {
         this(
-                dataProcessors, inputFile,
+            dataProcessors, inputFile,
             readFileSilently(inputFile), outputFile,
-            readFileSilently(outputFile), null, ""
+            readFileSilently(outputFile), null, "", ""
         );
     }
 
     public SiofGui(Collection<TextDataProcessor> dataProcessors, String inputContent) {
-        this(dataProcessors, null, inputContent, null, "", null, "");
+        this(dataProcessors, null, inputContent, null, "", null, "", "");
+    }
+
+    public SiofGui(
+        TextDataProcessor[] dataProcessors,
+        File inputFile,
+        String inputContent,
+        File outputFile,
+        String outputContent,
+        File checkOutputFile,
+        String checkOutputContent,
+        String diffCommand
+    ) {
+        this(
+            Arrays.asList(dataProcessors),
+            inputFile,
+            inputContent,
+            outputFile,
+            outputContent,
+            checkOutputFile,
+            checkOutputContent,
+            diffCommand
+        );
     }
 
     public SiofGui(
@@ -74,7 +98,8 @@ public class SiofGui implements Runnable {
         File outputFile,
         String outputContent,
         File checkOutputFile,
-        String checkOutputContent
+        String checkOutputContent,
+        String diffCommand
     ) {
         this.dataProcessors = new ArrayList<>(dataProcessors);
         this.inputFile = inputFile;
@@ -83,6 +108,7 @@ public class SiofGui implements Runnable {
         this.outputContent = outputContent;
         this.checkOutputFile = checkOutputFile;
         this.checkOutputContent = checkOutputContent;
+        this.diffCommand = diffCommand;
     }
 
     public static String readFileSilently(File file) {
@@ -118,7 +144,8 @@ public class SiofGui implements Runnable {
             dataProcessors,
             inputFile, inputContent,
             outputFile, outputContent,
-            checkOutputFile, checkOutputContent
+            checkOutputFile, checkOutputContent,
+            diffCommand
         );
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
